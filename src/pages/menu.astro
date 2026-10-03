@@ -1,0 +1,49 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatRupiah } from '../lib/format';
+
+const site = (await getEntry('site', 'site'))!.data;
+const items = (await getCollection('menu', (e) => e.data.aktif)).sort(
+  (a, b) => a.data.urutan - b.data.urutan,
+);
+const kategoriList = [...new Set(items.map((i) => i.data.kategori))];
+---
+
+<Base
+  title={`Menu — ${site.nama}`}
+  description={`Daftar menu ${site.nama}: kopi, minuman, dan makanan khas dengan harga terjangkau.`}
+>
+	<section class="page-hero">
+		<div class="container">
+			<span class="eyebrow reveal">Menu</span>
+			<h1 class="reveal">Pilih yang bikin kamu betah</h1>
+			<p class="reveal">Harga dan menu bisa berubah. Tanya kasir kalau ada yang kurang jelas.</p>
+		</div>
+	</section>
+
+	{kategoriList.map((kategori) => (
+		<section>
+			<div class="container">
+				<h2 class="section-title" data-split>{kategori}</h2>
+				<div class="grid">
+					{items
+						.filter((i) => i.data.kategori === kategori)
+						.map((item, i) => (
+							<article class="card reveal" style={`--d:${i * 100}ms`} data-tilt>
+								<div class="card-media">
+									<img src={item.data.gambar} alt={item.data.nama} loading="lazy" width="400" height="300" />
+									<span class="badge">{item.data.kategori}</span>
+								</div>
+								<div class="card-body">
+									<h3>{item.data.nama}</h3>
+									<p class="price">{formatRupiah(item.data.harga)}</p>
+									{item.body && <p class="desc">{item.body.trim()}</p>}
+								</div>
+							</article>
+						))}
+				</div>
+			</div>
+		</section>
+	))}
+</Base>

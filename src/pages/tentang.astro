@@ -1,0 +1,50 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const site = (await getEntry('site', 'site'))!.data;
+const page = (await getEntry('pages', 'tentang'))!;
+const paragraphs = page.body!.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+const nilai = [
+  { title: 'Ramah', text: 'Sapa hangat untuk siapa aja yang datang.' },
+  { title: 'Jujur', text: 'Kopi dan makanan disajikan apa adanya, tanpa dibuat-buat.' },
+  { title: 'Terjangkau', text: 'Nikmat tanpa bikin dompet menjerit.' },
+];
+---
+
+<Base
+  title={`Tentang Kami — ${site.nama}`}
+  description={`Cerita ${site.nama}, warkop tempat ngopi santai dan ngobrol asik di ${site.alamat}.`}
+>
+	<section class="page-hero">
+		<div class="container">
+			<span class="eyebrow reveal">Tentang</span>
+			<h1 class="display" data-split>{page.data.judul}</h1>
+		</div>
+	</section>
+
+	<section style="padding-top:32px">
+		<div class="container" style="display:grid;gap:36px">
+			{paragraphs.map((p) => (
+				<p class="scrub-text" data-scrub-text>{p}</p>
+			))}
+		</div>
+	</section>
+
+	<section style="background:var(--red-soft)">
+		<div class="container">
+			<span class="num num-center reveal">NILAI</span>
+			<h2 class="section-title" data-split>Yang kami pegang</h2>
+			<div class="grid">
+				{nilai.map((n, i) => (
+					<article class="card reveal" style={`--d:${i * 120}ms`} data-tilt>
+						<div class="card-body">
+							<h3>{n.title}</h3>
+							<p class="desc">{n.text}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+</Base>

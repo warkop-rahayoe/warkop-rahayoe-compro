@@ -1,0 +1,45 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { waLink } from '../lib/format';
+
+const site = (await getEntry('site', 'site'))!.data;
+---
+
+<Base
+  title={`Kontak & Lokasi — ${site.nama}`}
+  description={`Alamat, jam buka, dan kontak ${site.nama}. ${site.alamat}, buka ${site.jam_buka}.`}
+>
+	<section class="page-hero">
+		<div class="container">
+			<span class="eyebrow reveal">Kontak</span>
+			<h1 class="reveal">Kontak & Lokasi</h1>
+			<p class="reveal">Mampir langsung, atau tanya dulu lewat WhatsApp.</p>
+		</div>
+	</section>
+
+	<section style="padding-top:32px">
+		<div class="container about-grid" style="align-items:start">
+			<ul class="info-list reveal">
+				<li><strong>Alamat</strong>{site.alamat}</li>
+				<li><strong>Jam Buka</strong>{site.jam_buka}</li>
+				<li>
+					<strong>Instagram</strong>
+					<a href={site.instagram} target="_blank" rel="noopener noreferrer" style="color:var(--red);word-break:break-all">{site.instagram}</a>
+				</li>
+				<li><strong>WhatsApp</strong>+{site.whatsapp}</li>
+			</ul>
+
+			<div class="reveal" style="--d:150ms;display:grid;gap:14px">
+				<div class="cta-band" style="padding:40px 28px">
+					<h2 style="font-size:28px">Sampai ketemu di warkop</h2>
+					<p>Chat dulu kalau mau pesan atau nanya menu.</p>
+					<div class="hero-cta" style="justify-content:center">
+						<a href={waLink(site.whatsapp)} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Chat WhatsApp</a>
+					</div>
+				</div>
+				<a href={site.google_maps} class="btn btn-ghost" target="_blank" rel="noopener noreferrer" style="justify-content:center">Buka di Google Maps</a>
+			</div>
+		</div>
+	</section>
+</Base>
