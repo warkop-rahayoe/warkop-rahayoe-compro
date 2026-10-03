@@ -941,6 +941,36 @@ section {
   }
 }
 
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .card-media {
+    aspect-ratio: 1 / 1;
+  }
+  .card-body {
+    padding: 12px 12px 14px;
+  }
+  .card-body h3 {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .price {
+    font-size: 16px;
+    margin-top: 4px;
+  }
+  .desc {
+    font-size: 13px;
+  }
+  .badge {
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+}
+
 @media (max-width: 480px) {
   .stats {
     grid-template-columns: 1fr;
